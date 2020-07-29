@@ -1,0 +1,54 @@
+{% extends 'todoapp/base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-3">
+    <h2 class="text-center alert alert-info">Add new Task</h2>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{form.as_p}}
+      <input type="submit" class="btn btn-success" name="" value="Add">
+    </form>
+  </div>
+</div>
+<br><br>
+<div class="col-sm-8">
+  <div class="mr-2">
+  <h4 class="text-center alert alert-info">Pending Tasks</h4>
+  {% if tasks %}
+        <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Date</th>
+          <th scope="col">Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <th scope="row">{{task.id}}</th>
+          <td>{{task.title}}</td>
+          <td>{{task.description}}</td>
+          <td>{{task.date}}</td>
+          <td>
+            <a href="{% url 'update' task.id %}" class="btn btn-success">Update</a>
+            <form class="d-inline" action="{% url 'deletetask' task.id%}" method="POST">
+              {% csrf_token %}
+              <input type="submit" name="" class= "btn btn-primary" value="Completed">
+            </form>
+
+          </td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+  {% else %}
+  <h2>No Tasks to complete</h2>
+  {% endif %}
+  </div>
+</div>
+{% endblock %}
